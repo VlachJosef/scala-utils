@@ -1,0 +1,4 @@
+.cask/
+dist
+/scala-utils-pkg.el
+/scala-utils-pkg.elc
