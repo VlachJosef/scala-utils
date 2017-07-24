@@ -143,3 +143,65 @@ object Test {
   }
 }
 ")))
+
+(ert-deftest su-scala-utils:wrap-6 ()
+  (should
+   (equal
+    (with-current-buffer (find-file-noselect "test-wrap-6.scala")
+       (progn
+         (insert "package foo.bar
+
+object Test {
+  val locations =
+    am.applic|ationId match {
+      case Some(oppId) ⇒ 1
+      case None        ⇒ 2
+    }
+}
+")
+         (run-wrap)))
+    "package foo.bar
+
+object Test {
+  val locations = {
+    |
+    am.applicationId match {
+      case Some(oppId) ⇒ 1
+      case None        ⇒ 2
+    }
+  }
+}
+")))
+
+(ert-deftest su-scala-utils:wrap-7 ()
+  (should
+   (equal
+    (with-current-buffer (find-file-noselect "test-wrap-7.scala")
+       (progn
+         (insert "package foo.bar
+
+object Test {
+  val key =
+    K|ey(keyStr)
+
+  (global, optional) match {
+    case (1, 2) ⇒
+    case _ ⇒
+  }
+}
+")
+         (run-wrap)))
+    "package foo.bar
+
+object Test {
+  val key = {
+    |
+    Key(keyStr)
+  }
+
+  (global, optional) match {
+    case (1, 2) ⇒
+    case _ ⇒
+  }
+}
+")))
