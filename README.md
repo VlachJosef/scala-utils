@@ -14,4 +14,22 @@ def calcA(): Int = {
 }
 ```
 
+Support for `yield` keyword:
+```scala
+def calcA(): Int = for {
+  a <- getA
+  b <- getB
+} yield a + b
+```
+Results in expression wrapped in curly braces (where `|` denotes position of the point).
+```scala
+def calcA(): Int = for {
+  a <- getA
+  b <- getB
+} yield {
+  |
+  a + b
+}
+```
+
 For more examples see `scala-utils-test.el`.

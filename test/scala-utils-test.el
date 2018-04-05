@@ -205,3 +205,63 @@ object Test {
   }
 }
 ")))
+
+(ert-deftest su-scala-utils:wrap-8 ()
+  (should
+   (equal
+    (with-current-buffer (find-file-noselect "test-wrap-8.scala")
+       (progn
+         (insert "package foo.bar
+
+object Test {
+  val intGen: Get[Int] = for {
+    key <- keyGen
+  } yield IntAn|swer(key)
+
+  val noGen: Gen[No.type] = Gen.const(No)
+}
+")
+         (run-wrap)))
+    "package foo.bar
+
+object Test {
+  val intGen: Get[Int] = for {
+    key <- keyGen
+  } yield {
+    |
+    IntAnswer(key)
+  }
+
+  val noGen: Gen[No.type] = Gen.const(No)
+}
+")))
+
+(ert-deftest su-scala-utils:wrap-9 ()
+  (should
+   (equal
+    (with-current-buffer (find-file-noselect "test-wrap-9.scala")
+       (progn
+         (insert "package foo.bar
+
+object Test {
+  val riskText = (for {
+    span <- submitterEmail.body
+  } yield spa|n.text).mkString
+
+  riskText should be(NonStandardRisk)
+}
+")
+         (run-wrap)))
+    "package foo.bar
+
+object Test {
+  val riskText = (for {
+    span <- submitterEmail.body
+  } yield {
+    |
+    span.text
+  }).mkString
+
+  riskText should be(NonStandardRisk)
+}
+")))
